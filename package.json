@@ -1,0 +1,22 @@
+{
+  "name": "testproxy",
+  "version": "1.0.0",
+  "description": "Test your local websites on other devices",
+  "main": "proxy.js",
+  "dependencies": {
+    "http-proxy": "^1.13.2",
+    "qrcode-terminal": "^0.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mobile",
+    "device",
+    "test",
+    "proxy"
+  ],
+  "author": "Edwin Martin",
+  "license": "MIT"
+}
