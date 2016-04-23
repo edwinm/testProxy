@@ -2,13 +2,13 @@
 
 Test your local websites on other devices
 
-If you're developing websites, chances are you're using virtual hosts like test.mycompany.
+If you're developing websites, chances are you're using virtual hosts like `test.mycompany`.
 Just add another host to your hosts file and webserver config and start to develop.
 
 Unfortunately, you can't just access these sites from other (mobile) devices, so how do
 you test it?
 
-With testProxy it becomes very easy. To test you local test.mycompany website on a mobile, type:
+With testProxy it becomes very easy. To test you local `test.mycompany` website on a mobile device, type:
 
 ```bash
 node testproxy test.mycompany
@@ -20,7 +20,8 @@ TestProxy will respond with something like:
 Listening on http://192.168.0.93:9000
 ```
 
-Type the URL in the browser on your mobile and the website will appear.
+Type the URL in the browser on your mobile device and the website will appear.
+Make sure the mobile device is connected by WiFi.
 
 ## Parameters
 
@@ -34,6 +35,8 @@ node testproxy <domainname> [<port>]
 
 ## Example
 
+To make your local website `test.mycompany` available on port 9000:
+
 ```bash
 node testproxy test.mycompany 9000
 ```
@@ -42,12 +45,9 @@ You can connect different domain names to different port numbers at the same tim
 
 ```bash
 node testproxy test.mycompany 9000
-```
-and
-```bash
 node testproxy test.myothercompany 9001
 ```
 
 ## License
 
-TwitterFetch is  copyright 2016 Edwin Martin and MIT licensed.
+TestProxy is  copyright 2016 Edwin Martin and MIT licensed.
