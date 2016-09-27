@@ -1,6 +1,6 @@
 {
   "name": "testproxy",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Test your local websites on other devices",
   "main": "proxy.js",
   "dependencies": {
