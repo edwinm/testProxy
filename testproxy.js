@@ -1,5 +1,5 @@
 /**
- testProxy 1.1.0
+ testProxy 1.2.0
  Test your local websites on other devices
  @copyright 2016 Edwin Martin
  @see {@link http://www.bitstorm.org/javascript/}
@@ -11,12 +11,14 @@ const httpProxy = require('http-proxy');
 
 try {
 	const args = getArguments();
-	startProxy(args.host, args.port, args.listenPort)
+
+	const url = startProxy(args.host, args.port, args.listenPort);
+
+	if (args.qr) {
+		showQR(url);
+	}
 } catch(e) {
-	console.log('e', e);
-	console.error("Oops. " + e.message);
-	console.error("Usage: node testproxy.js <url>");
-	console.error("or     node testproxy.js <url> <listen-port>");
+	printUsage(e);
 }
 
 //=== Function declarations ============
@@ -25,41 +27,58 @@ try {
  * Parse command line arguments
  */
 function getArguments() {
-	var host, port, listenPort;
+	let url, host, port, listenPort, qr = true;
 
     if (process.argv.length < 3) {
 	    throw {message: "testProxy does not see enough arguments."};
     }
 
-	({host, port} = parseHost(process.argv[2]));
-	listenPort = process.argv[3] || 0;
+	process.argv.forEach(arg => {
+		url = parseUrl(arg);
+		if (url) {
+			({host, port} = url);
+		}
+		listenPort = listenPort || parseListenPort(arg);
+		qr = qr && !parseQR(arg);
+	});
 
+	if (listenPort == null) {
+		listenPort = 0; // Dynamically find IP
+	}
 
     return {
         host,
         port,
-	    listenPort
+	    listenPort,
+	    qr
     };
 }
 
-function parseHost(host) {
-	var match = host.match(/http(s?):\/\/([-a-z0-9\.]+):?([0-9]+)?\/?/);
+function parseListenPort(arg) {
+	const match = arg.match(/-l([0-9]+)/);
 
-	if (!match || !match[2]) {
-		throw {message: "testProxy does not inderstand the URL."};
+	if (match) {
+		return parseInt(match[1], 10);
 	}
+}
 
-	if (match[1] == 's') {
-		throw {message: "testProxy does not work with https."};
+function parseUrl(url) {
+	let host, port;
+	const match = url.match(/http(s?):\/\/([-a-z0-9\.]+):?([0-9]+)?\/?/);
+
+	if (match) {
+		host = match[2];
+		port = match[3] || 80;
+
+		return {
+			host,
+			port
+		};
 	}
+}
 
-	var host = match[2];
-	var port = match[3] || 80;
-
-	return {
-		host,
-		port
-	};
+function parseQR(arg) {
+	return arg == '-noqr';
 }
 
 /**
@@ -77,8 +96,13 @@ function getIpAddresses() {
     , []);
 }
 
+/**
+ * Start the actual proxy
+ * @returns {String} (First) url
+ */
 function startProxy(hostname, port, listenPort) {
     const proxy = httpProxy.createProxyServer({});
+	let returnUrl;
 
     proxy.on('proxyReq', proxyReq =>
         proxyReq.setHeader('Host', hostname)
@@ -92,13 +116,24 @@ function startProxy(hostname, port, listenPort) {
 
 	server.listen(listenPort);
 
-	listenPort = server.address().port;
+	if (listenPort === 0) {
+		listenPort = server.address().port;
+	}
 
-    getIpAddresses().forEach(ip =>
-        console.log(`Listening on http://${ip.address}:${listenPort}`)
+    getIpAddresses().forEach(ip => {
+		const url = `http://${ip.address}:${listenPort}`;
+	    returnUrl = returnUrl || url;
+	    console.log(`Listening on ${url}`);
+    }
     );
+
+	return returnUrl;
 }
 
+function printUsage(error) {
+	console.error("Oops. " + error.message);
+	console.error("Usage: node testproxy <url> [-l<listen-port>] [-noqr]");
+}
 
 /**
  * Show QR code on the terminal
