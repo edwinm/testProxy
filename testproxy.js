@@ -1,5 +1,5 @@
 /**
- testProxy 1.2.0
+ testProxy 1.2.1
  Test your local websites on other devices
  @copyright 2016 Edwin Martin
  @see {@link http://www.bitstorm.org/javascript/}
@@ -11,11 +11,10 @@ const httpProxy = require('http-proxy');
 
 try {
 	const args = getArguments();
-
-	const url = startProxy(args.host, args.port, args.listenPort);
+	startProxy(args.host, args.port, args.listenPort);
 
 	if (args.qr) {
-		showQR(url);
+		showQR(args);
 	}
 } catch(e) {
 	printUsage(e);
@@ -27,59 +26,52 @@ try {
  * Parse command line arguments
  */
 function getArguments() {
-	let url, host, port, listenPort, qr = true;
+	let opt = {};
 
     if (process.argv.length < 3) {
 	    throw {message: "testProxy does not see enough arguments."};
     }
 
 	process.argv.forEach(arg => {
-		url = parseUrl(arg);
-		if (url) {
-			({host, port} = url);
-		}
-		listenPort = listenPort || parseListenPort(arg);
-		qr = qr && !parseQR(arg);
+		parseUrl(opt, arg);
+		parseListenPort(opt, arg);
+		parseQR(opt, arg);
 	});
 
-	if (listenPort == null) {
-		listenPort = 0; // Dynamically find IP
+    return opt;
+
+	//== functions
+
+	function parseListenPort(opt, arg) {
+		const match = arg.match(/-l([0-9]+)/);
+
+		if (match) {
+			opt.listenPort = parseInt(match[1], 10);
+		} else if (!opt.listenPort) {
+			opt.listenPort = 0;
+		}
 	}
 
-    return {
-        host,
-        port,
-	    listenPort,
-	    qr
-    };
-}
+	function parseUrl(opt, url) {
+		const match = url.match(/http(s?):\/\/([-a-z0-9\.]+):?([0-9]+)?(\/.*)?/);
 
-function parseListenPort(arg) {
-	const match = arg.match(/-l([0-9]+)/);
-
-	if (match) {
-		return parseInt(match[1], 10);
+		if (match) {
+			opt.host = match[2];
+			opt.port = match[3] || 80;
+			opt.path = match[4];
+		}
 	}
-}
 
-function parseUrl(url) {
-	let host, port;
-	const match = url.match(/http(s?):\/\/([-a-z0-9\.]+):?([0-9]+)?\/?/);
-
-	if (match) {
-		host = match[2];
-		port = match[3] || 80;
-
-		return {
-			host,
-			port
-		};
+	function parseQR(opt, arg) {
+		if (arg == '-noqr') {
+			opt.qr = false;
+		} else if (opt.qr == null) {
+			opt.qr = true;
+		}
 	}
 }
 
-function parseQR(arg) {
-	return arg == '-noqr';
-}
+
 
 /**
  * Find ip addresses of local computer
@@ -137,11 +129,11 @@ function printUsage(error) {
 
 /**
  * Show QR code on the terminal
- * @param url
+ * @param args
  */
-function showQR(url) {
+function showQR(args) {
     const qrcode = require('qrcode-terminal');
-
+	const url = `http://${args.host}:${args.port}${args.path}`;
     qrcode.generate(url);
 }
 
