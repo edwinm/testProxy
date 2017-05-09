@@ -2,18 +2,27 @@
 
 Test your local websites on other devices
 
-If you're developing websites, chances are you're using virtual hosts like `test.mycompany`.
-Just add another host to your hosts file and webserver config and start to develop.
+If you are running a webserver in a local virtual machine like VirtualBox or VMware and possibly using Vagrant or Docker,
+you can't just access this webserver from other computers or mobile devices like phones or tablets.
 
-Often, the local webserver is running in an VM like Vagrant or Docker.
+TestProxy will create a proxy to this webserver and makes them available to other devices on the
+same (WiFi) network. All without any configuration.
 
-Unfortunately, you can't just access these sites from other mobile devices like phones or tablets,
-so how do you test it?
+## Installation
 
-With testProxy it becomes very easy. To test you local `test.mycompany` website on a mobile device, type:
+Open you favourite command line shell and type:
 
 ```bash
-node testproxy http://test.mycompany/
+
+npm install -g testproxy
+```
+
+## Running
+
+Assuming http://test.mycompany/ is working in your local browser but nowhere else:
+
+```bash
+testproxy http://test.mycompany/
 ```
 
 TestProxy will respond with something like:
@@ -22,13 +31,17 @@ TestProxy will respond with something like:
 Listening on http://192.168.0.93:6239
 ```
 
-Type the URL in the browser on your mobile device and the website will appear.
-Make sure the mobile device is connected by WiFi.
+And it will show a QR code.
+
+Type the URL in the browser on your mobile device or scan the QR code and the website will appear.
+Make sure the computer or mobile device is connected by the same (WiFi) network.
+
+Type CTRL-C to stop testproxy.
 
 ## Parameters
 
 ```bash
-node testproxy <url> [-l<port>] [-noqr]
+testproxy <url> [-l<port>] [-noqr]
 ```
 
 **url**: the same url as you use for local development
@@ -39,14 +52,15 @@ node testproxy <url> [-l<port>] [-noqr]
 
 ## Example
 
-To make your local website `test.mycompany` available:
+To make your local website `test.mycompany` available on port 9000 without showing the QR code:
 
 ```bash
-node testproxy http://test.mycompany/
+testproxy http://test.mycompany/ -l9000 -noqr
 ```
 
-You can connect different domain names to different port numbers at the same time:
+You can connect different domain names to different port numbers at the same time.
+TestProxy does not work with https connections.
 
 ## License
 
-TestProxy is copyright 2016 Edwin Martin and MIT licensed.
+TestProxy is copyright 2017 Edwin Martin and MIT licensed.

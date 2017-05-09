@@ -1,22 +1,28 @@
 {
-  "name": "testproxy",
-  "version": "1.2.0",
-  "description": "Test your local websites on other devices",
-  "main": "proxy.js",
-  "dependencies": {
-    "http-proxy": "^1.13.2",
-    "qrcode-terminal": "^0.10.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "mobile",
-    "device",
-    "test",
-    "proxy"
-  ],
-  "author": "Edwin Martin",
-  "license": "MIT"
+	"name": "testproxy",
+	"version": "1.3.0",
+	"description": "Test your local websites on other devices",
+	"dependencies": {
+		"http-proxy": "^1.13.2",
+		"qrcode-terminal": "^0.11.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/edwinm/testProxy.git"
+	},
+	"devDependencies": {
+	},
+	"keywords": [
+		"mobile",
+		"device",
+		"test",
+		"proxy",
+		"vm"
+	],
+	"author": "Edwin Martin",
+	"license": "MIT",
+	"preferGlobal": true,
+	"bin": {
+		"testproxy": "testproxy.js"
+	}
 }
