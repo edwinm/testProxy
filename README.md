@@ -13,9 +13,11 @@ same (WiFi) network. All without any configuration.
 Open you favourite command line shell and type:
 
 ```bash
-
 npm install -g testproxy
 ```
+
+If the command npm is not found, you have to install the node.js and npm combination.
+Go to https://nodejs.org/ and install node.js. Then type the command above again.
 
 ## Running
 
