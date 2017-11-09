@@ -1,17 +1,16 @@
 {
 	"name": "testproxy",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"description": "Test your local websites on other devices",
 	"dependencies": {
-		"http-proxy": "^1.13.2",
+		"http-proxy": "^1.16.2",
 		"qrcode-terminal": "^0.11.0"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/edwinm/testProxy.git"
 	},
-	"devDependencies": {
-	},
+	"devDependencies": {},
 	"keywords": [
 		"mobile",
 		"device",

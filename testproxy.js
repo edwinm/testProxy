@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 /**
- testProxy 1.3.0
+ testProxy 1.3.1
  Test your local websites on other devices
  @copyright 2017 Edwin Martin
  @see {@link http://www.bitstorm.org/javascript/}
@@ -16,7 +16,8 @@ try {
 	startProxy(args.host, args.port, args.listenPort);
 
 	if (args.qr) {
-		showQR(args);
+		const url = getUrl(args.host, args.port, args.path);
+		showQR(url);
 	}
 } catch(e) {
 	printUsage(e);
@@ -31,7 +32,7 @@ function getArguments() {
 	let opt = {};
 
     if (process.argv.length < 3) {
-	    throw {message: "testProxy does not see enough arguments."};
+	    throw new Error("testProxy does not see enough arguments.");
     }
 
 	process.argv.forEach(arg => {
@@ -115,7 +116,7 @@ function startProxy(hostname, port, listenPort) {
 	}
 
     getIpAddresses().forEach(ip => {
-		const url = `http://${ip.address}:${listenPort}`;
+		const url = getUrl(ip.address, listenPort);
 	    returnUrl = returnUrl || url;
 	    console.log(`Listening on ${url}`);
     }
@@ -125,17 +126,26 @@ function startProxy(hostname, port, listenPort) {
 }
 
 function printUsage(error) {
-	console.error("Oops. " + error.message);
+	console.error(`Oops. ${error}`);
 	console.error("Usage: node testproxy <url> [-l<listen-port>] [-noqr]");
 }
 
 /**
  * Show QR code on the terminal
- * @param args
+ * @param url
  */
-function showQR(args) {
+function showQR(url) {
     const qrcode = require('qrcode-terminal');
-	const url = `http://${args.host}:${args.port}${args.path}`;
     qrcode.generate(url);
+}
+
+/**
+ * Show QR code on the terminal
+ * @param host
+ * @param port
+ * @param path
+ */
+function getUrl(host, port = 80, path = '/') {
+	return `http://${host}:${port}${path}`;
 }
 
