@@ -11,15 +11,16 @@
 const http = require('http');
 const httpProxy = require('http-proxy');
 
-try {
-	const args = getArguments();
+const args = getArguments();
+
+if (args.error) {
+	printUsage(args.error);
+} else {
 	const url = startProxy(args.host, args.port, args.listenPort);
 
 	if (args.qr) {
 		showQR(url);
 	}
-} catch (e) {
-	printUsage(e);
 }
 
 //=== Function declarations ============
@@ -31,7 +32,7 @@ function getArguments() {
 	let opt = {};
 
 	if (process.argv.length < 3) {
-		throw new Error("testProxy does not see enough arguments.");
+		return {error: "testProxy does not see enough arguments."};
 	}
 
 	process.argv.forEach(arg => {
