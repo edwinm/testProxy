@@ -2,7 +2,7 @@
 
 Test your local websites on other devices
 
-If you are running a webserver as localhost with a local webserver of in a virtual machine like
+If you are running a webserver as localhost with a local webserver or in a virtual machine like
 VirtualBox or VMware and possibly using Vagrant or Docker,
 you can't always access this webserver from other computers or mobile devices like phones or tablets.
 
