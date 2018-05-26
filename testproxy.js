@@ -18,7 +18,7 @@ try {
 	if (args.qr) {
 		showQR(url);
 	}
-} catch(e) {
+} catch (e) {
 	printUsage(e);
 }
 
@@ -30,9 +30,9 @@ try {
 function getArguments() {
 	let opt = {};
 
-    if (process.argv.length < 3) {
-	    throw new Error("testProxy does not see enough arguments.");
-    }
+	if (process.argv.length < 3) {
+		throw new Error("testProxy does not see enough arguments.");
+	}
 
 	process.argv.forEach(arg => {
 		parseUrl(opt, arg);
@@ -40,7 +40,7 @@ function getArguments() {
 		parseQR(opt, arg);
 	});
 
-    return opt;
+	return opt;
 
 	//== functions
 
@@ -74,20 +74,19 @@ function getArguments() {
 }
 
 
-
 /**
  * Find ip addresses of local computer
  * @returns {Array} ip-addresses
  */
 function getIpAddresses() {
-    const os = require('os');
-    const ifaces = os.networkInterfaces();
+	const os = require('os');
+	const ifaces = os.networkInterfaces();
 
-    return Object.keys(ifaces).reduce((prev, iface) =>
-        prev.concat(ifaces[iface].filter(address =>
-            !address.internal && address.family == 'IPv4'
-        ))
-    , []);
+	return Object.keys(ifaces).reduce((prev, iface) =>
+			prev.concat(ifaces[iface].filter(address =>
+				!address.internal && address.family == 'IPv4',
+			))
+		, []);
 }
 
 /**
@@ -95,18 +94,18 @@ function getIpAddresses() {
  * @returns {String} (First) url
  */
 function startProxy(hostname, port, listenPort) {
-    const proxy = httpProxy.createProxyServer({});
+	const proxy = httpProxy.createProxyServer({});
 	let returnUrl;
 
-    proxy.on('proxyReq', proxyReq =>
-        proxyReq.setHeader('Host', hostname)
-    );
+	proxy.on('proxyReq', proxyReq =>
+		proxyReq.setHeader('Host', hostname),
+	);
 
-    const server = http.createServer((req, res) =>
-        proxy.web(req, res, {
-            target: `http://${hostname}:${port}`
-        })
-    );
+	const server = http.createServer((req, res) =>
+		proxy.web(req, res, {
+			target: `http://${hostname}:${port}`,
+		}),
+	);
 
 	server.listen(listenPort);
 
@@ -114,12 +113,12 @@ function startProxy(hostname, port, listenPort) {
 		listenPort = server.address().port;
 	}
 
-    getIpAddresses().forEach(ip => {
-		const url = getUrl(ip.address, listenPort);
-	    returnUrl = returnUrl || url;
-	    console.log(`Listening on ${url}`);
-    }
-    );
+	getIpAddresses().forEach(ip => {
+			const url = getUrl(ip.address, listenPort);
+			returnUrl = returnUrl || url;
+			console.log(`Listening on ${url}`);
+		},
+	);
 
 	return returnUrl;
 }
@@ -134,8 +133,8 @@ function printUsage(error) {
  * @param url
  */
 function showQR(url) {
-    const qrcode = require('qrcode-terminal');
-    qrcode.generate(url);
+	const qrcode = require('qrcode-terminal');
+	qrcode.generate(url);
 }
 
 /**
