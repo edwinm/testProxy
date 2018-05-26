@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 /**
- testProxy 1.3.1
+ testProxy 1.3.2
  Test your local websites on other devices
  @copyright 2017 Edwin Martin
  @see {@link http://www.bitstorm.org/javascript/}
@@ -13,10 +13,9 @@ const httpProxy = require('http-proxy');
 
 try {
 	const args = getArguments();
-	startProxy(args.host, args.port, args.listenPort);
+	const url = startProxy(args.host, args.port, args.listenPort);
 
 	if (args.qr) {
-		const url = getUrl(args.host, args.port, args.path);
 		showQR(url);
 	}
 } catch(e) {
