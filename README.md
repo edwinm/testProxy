@@ -2,8 +2,9 @@
 
 Test your local websites on other devices
 
-If you are running a webserver in a local virtual machine like VirtualBox or VMware and possibly using Vagrant or Docker,
-you can't just access this webserver from other computers or mobile devices like phones or tablets.
+If you are running a webserver as localhost with a local webserver of in a virtual machine like
+VirtualBox or VMware and possibly using Vagrant or Docker,
+you can't always access this webserver from other computers or mobile devices like phones or tablets.
 
 TestProxy will create a proxy to this webserver and makes them available to other devices on the
 same (WiFi) network. All without any configuration.
@@ -63,6 +64,13 @@ testproxy http://test.mycompany/ -l9000 -noqr
 You can connect different domain names to different port numbers at the same time.
 TestProxy does not work with https connections.
 
+## Protected WiFi
+
+Some WiFi networks are protected and prevent you from accessing other computers on the same network.
+A solution for one device is to configure it as a hotspot and connect your computer to this hotspot.
+Another solution is using another, unprotected WiFi network for development and test purposes,
+installing an WiFi access point first if not available.
+
 ## License
 
-TestProxy is copyright 2017 Edwin Martin and MIT licensed.
+TestProxy is copyright 2018 Edwin Martin and MIT licensed.
