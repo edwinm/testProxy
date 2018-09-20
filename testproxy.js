@@ -85,7 +85,7 @@ function getIpAddresses() {
 
 	return Object.keys(ifaces).reduce((prev, iface) =>
 			prev.concat(ifaces[iface].filter(address =>
-				!address.internal && address.family == 'IPv4',
+				!address.internal && address.family == 'IPv4'
 			))
 		, []);
 }
@@ -99,13 +99,13 @@ function startProxy(hostname, port, listenPort) {
 	let returnUrl;
 
 	proxy.on('proxyReq', proxyReq =>
-		proxyReq.setHeader('Host', hostname),
+		proxyReq.setHeader('Host', hostname)
 	);
 
 	const server = http.createServer((req, res) =>
 		proxy.web(req, res, {
-			target: `http://${hostname}:${port}`,
-		}),
+			target: `http://${hostname}:${port}`
+		})
 	);
 
 	server.listen(listenPort);
@@ -118,7 +118,7 @@ function startProxy(hostname, port, listenPort) {
 			const url = getUrl(ip.address, listenPort);
 			returnUrl = returnUrl || url;
 			console.log(`Listening on ${url}`);
-		},
+		}
 	);
 
 	return returnUrl;
