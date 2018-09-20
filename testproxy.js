@@ -46,7 +46,7 @@ function getArguments() {
 	//== functions
 
 	function parseListenPort(opt, arg) {
-		const match = arg.match(/-l([0-9]+)/);
+		const match = arg.match(/-[lp] ?([0-9]+)/);
 
 		if (match) {
 			opt.listenPort = parseInt(match[1], 10);
