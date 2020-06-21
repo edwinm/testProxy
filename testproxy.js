@@ -56,7 +56,7 @@ function getArguments() {
 	}
 
 	function parseUrl(opt, url) {
-		const match = url.match(/http(s?):\/\/([-a-z0-9\.]+):?([0-9]+)?(\/.*)?/);
+		const match = url.match(/http(s?):\/\/([-a-z0-9.]+):?([0-9]+)?(\/.*)?/);
 
 		if (match) {
 			opt.host = match[2];
