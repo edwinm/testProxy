@@ -3,8 +3,7 @@
 /**
  testProxy 1.3.4
  Test your local websites on other devices
- @copyright 2017 Edwin Martin
- @see {@link http://www.bitstorm.org/javascript/}
+ @copyright 2023 Edwin Martin
  @license MIT
  */
 
@@ -139,7 +138,7 @@ function showQR(url) {
 }
 
 /**
- * Show QR code on the terminal
+ * Build url from host, port and path
  * @param host
  * @param port
  * @param path
