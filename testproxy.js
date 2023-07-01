@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 /**
- testProxy 1.3.3
+ testProxy 1.3.4
  Test your local websites on other devices
  @copyright 2017 Edwin Martin
  @see {@link http://www.bitstorm.org/javascript/}
