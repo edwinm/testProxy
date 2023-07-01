@@ -1,50 +1,46 @@
-# testProxy
+[![Carbonium](https://raw.githubusercontent.com/edwinm/testProxy/master/illustration.jpeg)](#readme)
 
-Test your local websites on other devices
+# testproxy
 
-If you are running a webserver as localhost with a local webserver or in a virtual machine like
-VirtualBox or VMware and possibly using Vagrant or Docker,
-you can't always access this webserver from other computers or mobile devices like phones or tablets.
+Test your locally running websites on other devices
 
-TestProxy will create a proxy to this webserver and makes them available to other devices on the
-same (WiFi) network. All without any configuration.
+If you are running a webserver as localhost, with a local webserver or in a virtual machine like
+VirtualBox VMware, Vagrant or Docker,
+you can't always access this webserver from other computers or mobile devices.
 
-## Installation
-
-Open you favourite command line shell and type:
-
-```bash
-npm install -g testproxy
-```
-
-If the command npm is not found, you have to install the node.js and npm combination.
-Go to https://nodejs.org/ and install node.js. Then type the command above again.
+Testproxy will create a proxy to this local webserver and makes them available to other devices on the
+same (Wi-Fi) network. All without any configuration.
 
 ## Running
 
-Assuming http://test.mycompany/ is working in your local browser but nowhere else:
+Assuming http://localhost:8080/ is working in your local browser but nowhere else:
 
 ```bash
-testproxy http://test.mycompany/
+npx testproxy http://localhost:8080/
 ```
 
-TestProxy will respond with something like:
+The first time it will ask you to install testproxy. Press enter to proceed.
 
-```bash
+If the command npm is not found, you have to install the Node.js and npm combination.
+Go to https://nodejs.org/ and install Node.js. Then type the command above again.
+
+Testproxy will respond with something like:
+
+```
 Listening on http://192.168.0.93:6239
 ```
 
 And it will show a QR code.
 
 Type the URL in the browser on your mobile device or scan the QR code and the website will appear.
-Make sure the computer or mobile device is connected by the same (WiFi) network.
+Make sure the computer and other device are connected by the same (WiFi) network.
 
 Type CTRL-C to stop testproxy.
 
 ## Parameters
 
 ```bash
-testproxy <url> [-l<port>] [-noqr]
+npx testproxy <url> [-l<port>] [-noqr]
 ```
 
 **url**: the same url as you use for local development
@@ -58,19 +54,21 @@ testproxy <url> [-l<port>] [-noqr]
 To make your local website `test.mycompany` available on port 9000 without showing the QR code:
 
 ```bash
-testproxy http://test.mycompany/ -l9000 -noqr
+npx testproxy http://test.mycompany/ -l9000 -noqr
 ```
 
 You can connect different domain names to different port numbers at the same time.
-TestProxy does not work with https connections.
+Testproxy does not work with https connections.
 
-## Protected WiFi
+## Highly secured WiFi
 
-Some WiFi networks are protected and prevent you from accessing other computers on the same network.
-A solution for one device is to configure it as a hotspot and connect your computer to this hotspot.
-Another solution is using another, unprotected WiFi network for development and test purposes,
-installing an WiFi access point first if not available.
+Some WiFi networks are highly secured and prevent you from accessing other computers on the same network.
+Here are some solutions to this problem:
+- Connect the host computer and the other computer or mobile to the same guest Wi-Fi network.
+- Configure one device as a hotspot and connect your other device to this hotspot.
+- Use another, unprotected Wi-Fi network for development and test purposes,
+  installing a dedicated Wi-Fi access point if needed.
 
 ## License
 
-TestProxy is copyright 2018 Edwin Martin and MIT licensed.
+Testproxy is copyright 2023 Edwin Martin and MIT licensed.
