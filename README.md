@@ -2,11 +2,11 @@
 
 # testproxy
 
-Test your locally running websites on other devices
+Connect from (mobile) devices to your locally running, non public websites
 
-If you are running a webserver as localhost, with a local webserver or in a virtual machine like
-VirtualBox VMware, Vagrant or Docker,
-you can't always access this webserver from other computers or mobile devices.
+If you are running a webserver as localhost, with a local webserver or in a virtual machine or container like
+VirtualBox, VMware, Vagrant or Docker,
+you can't always access this webserver from other computers or mobile devices, even on the same network.
 
 Testproxy will create a proxy to this local webserver and makes them available to other devices on the
 same (Wi-Fi) network. All without any configuration.
