@@ -1,4 +1,4 @@
-[![Carbonium](https://raw.githubusercontent.com/edwinm/testProxy/master/illustration.jpeg)](#readme)
+[![TestProxy](https://raw.githubusercontent.com/edwinm/testProxy/master/illustration.jpeg)](#readme)
 
 # testproxy
 
@@ -71,4 +71,4 @@ Here are some solutions to this problem:
 
 ## License
 
-Testproxy is copyright 2023 Edwin Martin and MIT licensed.
+Testproxy is copyright 2025 Edwin Martin and MIT licensed.

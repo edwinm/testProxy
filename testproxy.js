@@ -1,9 +1,9 @@
 #! /usr/bin/env node
 
 /**
- testProxy 1.3.4
+ testProxy 1.4.0
  Test your local websites on other devices
- @copyright 2023 Edwin Martin
+ @copyright 2025 Edwin Martin
  @license MIT
  */
 
@@ -97,8 +97,19 @@ function startProxy(hostname, port, listenPort) {
 	const proxy = httpProxy.createProxyServer({});
 	let returnUrl;
 
-	proxy.on('proxyReq', proxyReq =>
-		proxyReq.setHeader('Host', hostname)
+	proxy.on('proxyReq', (proxyReq, req, res) => {
+			const host = proxyReq.getHeader('host');
+			const hostname = getHostname(host)
+			proxyReq.setHeader('Host', hostname);
+			proxyReq.setHeader('X-Forwarded-Host', hostname);
+			const forwarded = [
+				`by=${formatIpForForwarded(req.socket.localAddress)}:${listenPort}`,
+				`for=${formatIpForForwarded(req.socket.remoteAddress)}`,
+				`host=${host}`,
+				`proto=${req.socket.encrypted ? 'https' : 'http'}`,
+			].join(';');
+			proxyReq.appendHeader('Forwarded', forwarded);
+		}
 	);
 
 	const server = http.createServer((req, res) =>
@@ -123,6 +134,10 @@ function startProxy(hostname, port, listenPort) {
 	return returnUrl;
 }
 
+/**
+ * Print usage
+ * @param error
+ */
 function printUsage(error) {
 	console.error(`Oops. ${error}`);
 	console.error("Usage: node testproxy <url> [-l<listen-port>] [-noqr]");
@@ -135,6 +150,38 @@ function printUsage(error) {
 function showQR(url) {
 	const qrcode = require('qrcode-terminal');
 	qrcode.generate(url);
+}
+
+/**
+ * Get hostname from host
+ * @param host
+ * @returns hostname
+ */
+function getHostname(host) {
+	const s = host.split(':');
+	return s.length == 2 ? s[0] : host;
+}
+
+/**
+ * Format ip for Forwarded header
+ * @param ip
+ * @returns ip
+ */
+function formatIpForForwarded(ip) {
+	if (!ip) {
+		return 'unknown';
+	}
+
+	// Remove IPv4-mapped IPv6 prefix if present
+	const cleanIp = ip.startsWith('::ffff:') ? ip.substring(7) : ip;
+
+	// Check if it's an IPv6 address (contains colons)
+	if (cleanIp.includes(':')) {
+		return `"[${cleanIp}]"`;
+	}
+
+	// IPv4 address
+	return cleanIp;
 }
 
 /**
