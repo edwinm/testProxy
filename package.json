@@ -12,6 +12,7 @@
 	},
 	"devDependencies": {},
 	"keywords": [
+		"cli",
 		"localhost",
 		"mobile",
 		"device",
